@@ -73,7 +73,7 @@ For the Suggestion engine, I needed more training examples
 than the raw product photos alone, so:
 - classical augmentation (rotation, lighting, cropping) expanded the image set for training
 - synthetic try-on frames were generated offline (using diffusion-based image generation)
-  to give the accuracy model examples of both good and bad jewelry placement to learn from
+  to give the model examples of both good and bad jewelry placement to learn from
 - The role of the model is it generates completely new image, while preserving the important features from the original image.
 - In simple words, it changes the lighting, background but keeps the image shape and size same. 
 
@@ -111,15 +111,12 @@ AI_VTO_Project - Copyyy/                    ← ROOT (run docker/git commands he
 │   ├── admin.py                            (admin product management)
 │   ├── recommendations.py                  (rule-based recommender)
 │   ├── site_structure.py                   (category/collection lookup tables)
-│   ├── vto_accuracy.py                     (geometric accuracy tracking)
 │   ├── analytics_logger.py                 
 │   ├── tempCodeRunnerFile.py              
 │   │
 │   ├── ml_models/
 │   │   ├── advanced_recommendation.py      (CLIP + GNN Suggestion engine)
 │   │   ├── overlay_engine.py               (jewelry placement/overlay logic)
-│   │   ├── accuracy_model.py               (EfficientNet-B0 quality model)
-│   │   ├── accuracy_inference.py           (quality model inference wrapper)
 │   │   ├── advanced_model.py
 │   │   ├── advanced_train.py               (training script, not used at runtime)
 │   │   ├── accuracy_train.py               (training script, not used at runtime)
