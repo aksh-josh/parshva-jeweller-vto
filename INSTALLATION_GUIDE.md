@@ -7,8 +7,7 @@
   before proceeding — a very common first error is Docker Desktop simply not
   being started yet).
 - **Git** installed (`git --version` to check).
-- At least ~10GB free disk space (PyTorch, CLIP, and Depth Anything model
-  weights are downloaded during the first build).
+
 
 ## Step 1 — Clone the repository
 
@@ -90,6 +89,12 @@ docker compose up --build
 Check `frontend/vite.config.js` — its dev-server proxy must target the backend by its
 Docker **service name** (`http://backend:5000`), not `127.0.0.1` or `localhost`, since
 containers can't reach each other via loopback addresses.
+
+**Error response from daemon: ports are not available** ... bind: address already in use (port 5000)
+On macOS, Apple's AirPlay Receiver service uses port 5000 by default, which conflicts
+with the backend trying to use the same port. Fixed by mapping the backend to port 5001
+on the host in docker-compose.yml ("5001:5000") — internal container-to-container
+communication is unaffected, only the host-exposed debug URL changes.
 
 ## Cleaning up disk space (optional)
 
