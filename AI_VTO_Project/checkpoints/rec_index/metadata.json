@@ -1,0 +1,457 @@
+[
+  {
+    "path": "dataset/augmented/chain/original/chain14.png",
+    "category": "chain",
+    "name": "Chain14"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain9.png",
+    "category": "chain",
+    "name": "Chain9"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain12.png",
+    "category": "chain",
+    "name": "Chain12"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain4.png",
+    "category": "chain",
+    "name": "Chain4"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain8.png",
+    "category": "chain",
+    "name": "Chain8"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain18.png",
+    "category": "chain",
+    "name": "Chain18"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain13.png",
+    "category": "chain",
+    "name": "Chain13"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain6.png",
+    "category": "chain",
+    "name": "Chain6"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain15.png",
+    "category": "chain",
+    "name": "Chain15"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain20.png",
+    "category": "chain",
+    "name": "Chain20"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain1.png",
+    "category": "chain",
+    "name": "Chain1"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain17.png",
+    "category": "chain",
+    "name": "Chain17"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain11.png",
+    "category": "chain",
+    "name": "Chain11"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain7.png",
+    "category": "chain",
+    "name": "Chain7"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain10.png",
+    "category": "chain",
+    "name": "Chain10"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain3.png",
+    "category": "chain",
+    "name": "Chain3"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain19.png",
+    "category": "chain",
+    "name": "Chain19"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain16.png",
+    "category": "chain",
+    "name": "Chain16"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain5.png",
+    "category": "chain",
+    "name": "Chain5"
+  },
+  {
+    "path": "dataset/augmented/chain/original/chain2.png",
+    "category": "chain",
+    "name": "Chain2"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/10.png",
+    "category": "jhumka",
+    "name": "10"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/5.png",
+    "category": "jhumka",
+    "name": "5"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/4.png",
+    "category": "jhumka",
+    "name": "4"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/6.png",
+    "category": "jhumka",
+    "name": "6"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/13.png",
+    "category": "jhumka",
+    "name": "13"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/14.png",
+    "category": "jhumka",
+    "name": "14"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/12.png",
+    "category": "jhumka",
+    "name": "12"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/2.png",
+    "category": "jhumka",
+    "name": "2"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/8.png",
+    "category": "jhumka",
+    "name": "8"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/11.png",
+    "category": "jhumka",
+    "name": "11"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/3.png",
+    "category": "jhumka",
+    "name": "3"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/9.png",
+    "category": "jhumka",
+    "name": "9"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/7.png",
+    "category": "jhumka",
+    "name": "7"
+  },
+  {
+    "path": "dataset/augmented/jhumka/original/1.png",
+    "category": "jhumka",
+    "name": "1"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/22.png",
+    "category": "mangalsutra",
+    "name": "22"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/10.png",
+    "category": "mangalsutra",
+    "name": "10"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/19.png",
+    "category": "mangalsutra",
+    "name": "19"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/5.png",
+    "category": "mangalsutra",
+    "name": "5"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/17.png",
+    "category": "mangalsutra",
+    "name": "17"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/4.png",
+    "category": "mangalsutra",
+    "name": "4"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/6.png",
+    "category": "mangalsutra",
+    "name": "6"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/13.png",
+    "category": "mangalsutra",
+    "name": "13"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/14.png",
+    "category": "mangalsutra",
+    "name": "14"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/23.png",
+    "category": "mangalsutra",
+    "name": "23"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/15.png",
+    "category": "mangalsutra",
+    "name": "15"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/18.png",
+    "category": "mangalsutra",
+    "name": "18"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/12.png",
+    "category": "mangalsutra",
+    "name": "12"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/2.png",
+    "category": "mangalsutra",
+    "name": "2"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/16.png",
+    "category": "mangalsutra",
+    "name": "16"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/24.png",
+    "category": "mangalsutra",
+    "name": "24"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/8.png",
+    "category": "mangalsutra",
+    "name": "8"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/11.png",
+    "category": "mangalsutra",
+    "name": "11"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/3.png",
+    "category": "mangalsutra",
+    "name": "3"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/9.png",
+    "category": "mangalsutra",
+    "name": "9"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/21.png",
+    "category": "mangalsutra",
+    "name": "21"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/7.png",
+    "category": "mangalsutra",
+    "name": "7"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/1.png",
+    "category": "mangalsutra",
+    "name": "1"
+  },
+  {
+    "path": "dataset/augmented/mangalsutra/original/20.png",
+    "category": "mangalsutra",
+    "name": "20"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/96.png",
+    "category": "necklace",
+    "name": "96"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/44.png",
+    "category": "necklace",
+    "name": "44"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/99.png",
+    "category": "necklace",
+    "name": "99"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/63.png",
+    "category": "necklace",
+    "name": "63"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/55.png",
+    "category": "necklace",
+    "name": "55"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/107.png",
+    "category": "necklace",
+    "name": "107"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/64.png",
+    "category": "necklace",
+    "name": "64"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/54.png",
+    "category": "necklace",
+    "name": "54"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/39.png",
+    "category": "necklace",
+    "name": "39"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/62.png",
+    "category": "necklace",
+    "name": "62"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/105.png",
+    "category": "necklace",
+    "name": "105"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/108.png",
+    "category": "necklace",
+    "name": "108"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/102.png",
+    "category": "necklace",
+    "name": "102"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/106.png",
+    "category": "necklace",
+    "name": "106"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/103.png",
+    "category": "necklace",
+    "name": "103"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/60.png",
+    "category": "necklace",
+    "name": "60"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/97.png",
+    "category": "necklace",
+    "name": "97"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/98.png",
+    "category": "necklace",
+    "name": "98"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/59.png",
+    "category": "necklace",
+    "name": "59"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/58.png",
+    "category": "necklace",
+    "name": "58"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/100.png",
+    "category": "necklace",
+    "name": "100"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/101.png",
+    "category": "necklace",
+    "name": "101"
+  },
+  {
+    "path": "dataset/augmented/necklace/original/104.png",
+    "category": "necklace",
+    "name": "104"
+  },
+  {
+    "path": "dataset/augmented/ring/original/10.png",
+    "category": "ring",
+    "name": "10"
+  },
+  {
+    "path": "dataset/augmented/ring/original/5.png",
+    "category": "ring",
+    "name": "5"
+  },
+  {
+    "path": "dataset/augmented/ring/original/4.png",
+    "category": "ring",
+    "name": "4"
+  },
+  {
+    "path": "dataset/augmented/ring/original/6.png",
+    "category": "ring",
+    "name": "6"
+  },
+  {
+    "path": "dataset/augmented/ring/original/2.png",
+    "category": "ring",
+    "name": "2"
+  },
+  {
+    "path": "dataset/augmented/ring/original/8.png",
+    "category": "ring",
+    "name": "8"
+  },
+  {
+    "path": "dataset/augmented/ring/original/3.png",
+    "category": "ring",
+    "name": "3"
+  },
+  {
+    "path": "dataset/augmented/ring/original/9.png",
+    "category": "ring",
+    "name": "9"
+  },
+  {
+    "path": "dataset/augmented/ring/original/7.png",
+    "category": "ring",
+    "name": "7"
+  },
+  {
+    "path": "dataset/augmented/ring/original/1.png",
+    "category": "ring",
+    "name": "1"
+  }
+]

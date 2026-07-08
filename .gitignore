@@ -1,0 +1,28 @@
+# Environment / secrets
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Model checkpoints (large binaries)
+AI_VTO_Project/checkpoints/*.pth
+AI_VTO_Project/checkpoints/*.pt
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Docker
+docker-compose.override.yml
+
+# Frontend
+frontend/node_modules/
+frontend/dist/

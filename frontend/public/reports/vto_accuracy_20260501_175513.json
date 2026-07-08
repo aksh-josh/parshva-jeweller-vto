@@ -1,0 +1,59 @@
+{
+  "session": {
+    "start_time": "2026-05-01T17:52:28.422977",
+    "duration_sec": 165.0,
+    "total_frames": 229,
+    "detected_frames": 228,
+    "category_tested": "unknown"
+  },
+  "overall": {
+    "detection_rate_pct": 99.6,
+    "pck_5pct": 57.0,
+    "pck_2pct": 20.6,
+    "mean_iou": 0.391,
+    "mean_pos_error_px": 63.0,
+    "std_pos_error_px": 28.8,
+    "mean_jitter_px": 15.7,
+    "fps": 16.1,
+    "mean_inference_ms": 62.2,
+    "overall_grade": "D"
+  },
+  "per_category": {
+    "chain": {
+      "frames": 182,
+      "detected": 181,
+      "detection_rate_pct": 99.5,
+      "pck_5pct": 45.9,
+      "pck_2pct": 0.0,
+      "mean_iou": 0.35,
+      "mean_pos_error_px": 74.3,
+      "std_pos_error_px": 20.5,
+      "mean_jitter_px": 17.3,
+      "mean_scale_ratio": 0.443,
+      "scale_error_pct": 55.7,
+      "mean_inference_ms": 64.1,
+      "grade": "D"
+    },
+    "necklace": {
+      "frames": 47,
+      "detected": 47,
+      "detection_rate_pct": 100.0,
+      "pck_5pct": 100.0,
+      "pck_2pct": 100.0,
+      "mean_iou": 0.547,
+      "mean_pos_error_px": 19.3,
+      "std_pos_error_px": 1.6,
+      "mean_jitter_px": 9.5,
+      "mean_scale_ratio": 0.829,
+      "scale_error_pct": 17.1,
+      "mean_inference_ms": 54.8,
+      "grade": "D"
+    }
+  },
+  "interpretation": [
+    "Moderate keypoint accuracy (57% PCK@5%). Recommend annotating 30+ images per category with LabelMe.",
+    "Weak bounding box overlap (IoU=0.39). Jewelry may be too large/small or shifted from expected position.",
+    "Shaky overlay (jitter=15.7px). Consider adding temporal smoothing filter to placement coordinates.",
+    "Acceptable performance (16 fps). Usable but not perfectly smooth."
+  ]
+}

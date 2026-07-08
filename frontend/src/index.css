@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Typography & Base Styles */
+body { font-family: "Lato", sans-serif; }
+h1, h2, h3, .brand-font { font-family: "Playfair Display", serif; }
+
+/* Navbar Transitions */
+.nav-transparent {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.nav-transparent .nav-link { color: white !important; }
+.nav-transparent .nav-brand { color: white !important; }
+.nav-transparent .nav-icon { color: rgba(255,255,255,0.9) !important; }
+.nav-transparent .nav-divider { color: rgba(255,255,255,0.3) !important; }
+.nav-solid { background: white; transition: all 0.4s ease; }
+.dark .nav-solid { background: #1f2937; }
+.nav-solid .nav-search-input { background: #f3f4f6; border-color: #e5e7eb; color: #111; }
+.nav-solid .nav-search-input::placeholder { color: #9ca3af; }
+.dark .nav-solid .nav-search-input { background: #374151; border-color: #4b5563; color: white; }
+.dark .nav-solid .nav-search-input::placeholder { color: #6b7280; }
+
+/* Mega Dropdown Hover */
+.nav-item:hover .mega-dropdown { display: block; }
+.mega-dropdown { display: none; }
+
+/* Animations */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.brand-shimmer {
+  background: linear-gradient(90deg, #b8860b 0%, #ffd700 25%, #fff8dc 50%, #ffd700 75%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+.theme-toggle { transition: transform 0.3s; }
+.theme-toggle:hover { transform: rotate(30deg); }
+
+/* Virtual Try-On Specific Styles */
+
+.acc-panel { background: #1a1a2e; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 14px 16px; margin-top: 12px; font-family: 'Segoe UI', Arial, sans-serif; color: #e0e0e0; }
+
+.acc-title { font-size: 13px; font-weight: 600; letter-spacing: .5px; margin-bottom: 10px; color: #a0c4ff; display: flex; justify-content: space-between; align-items: center; }
+
+.acc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+
+.acc-metric { background: rgba(255,255,255,.05); border-radius: 8px; padding: 8px 10px; text-align: center; }
+
+.acc-metric .val { font-size: 18px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+
+.acc-metric .lbl { font-size: 10px; color: #888; letter-spacing: .3px; }
+
+.acc-metric.grade-A .val { color: #4ade80; } .acc-metric.grade-B .val { color: #86efac; }
+
+.acc-metric.grade-C .val { color: #fbbf24; } .acc-metric.grade-D .val { color: #f87171; }
+
+.acc-metric.neutral .val { color: #93c5fd; }
+
+.acc-status-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 8px; }
+
+.acc-status-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
+
+.acc-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+
+.badge-excellent { background: rgba(74,222,128,.2); color: #4ade80; }
+
+.badge-good { background: rgba(134,239,172,.2); color: #86efac; }
+
+.badge-fair { background: rgba(251,191,36,.2); color: #fbbf24; }
+
+.badge-poor { background: rgba(248,113,113,.2); color: #f87171; }
+
+
+
+.gaze-indicator-el { position: absolute; bottom: 70px; right: 12px; z-index: 22; background: rgba(0,0,0,.72); backdrop-filter: blur(6px); border-radius: 22px; padding: 5px 12px; display: none; align-items: center; gap: 6px; pointer-events: none; }
+
+.gaze-on { background: #059669 !important; }
+
+.gaze-disabled { opacity: .45; cursor: not-allowed; }
+
+
+
+.rec-card-wrapper { position: relative; display: block; }
+
+.dwell-ring { position: absolute; inset: -4px; border-radius: 14px; pointer-events: none; z-index: 6; border: 2.5px solid #34D399; opacity: 0; transition: opacity .2s; clip-path: polygon(0 0,0 0,0 100%,0 100%); box-shadow: 0 0 12px rgba(52,211,153,0.5); }
+
+.dwell-ring.active { opacity: 1; }
+
+.rec-card-wrapper.gaze-target .rec-card-inner { background: rgba(52,211,153,0.08) !important; transform: scale(1.02); transition: all 0.2s ease; }
