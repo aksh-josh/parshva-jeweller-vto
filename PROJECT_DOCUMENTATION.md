@@ -1,4 +1,4 @@
-# Project Documentation — Parshva Jewellers AI Virtual Try-On & Recommendation System
+# Project Documentation — Recommendation System Parshva Jewellers AI Virtual Try-On
 
 ## 1. Overview
 
