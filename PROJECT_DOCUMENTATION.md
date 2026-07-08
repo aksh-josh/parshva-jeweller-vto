@@ -28,7 +28,7 @@ Browser ──▶ frontend (React, port 5173) ──▶ backend (Flask, port 500
 ## 3. Core Features
 
 ### 3.1 Virtual Try-On
-- Trianed ML models like EfficientNet and HRNet-Keypoint are usd=ed for detection and accessory placement.
+- Trianed ML models like EfficientNet and HRNet-Keypoint are used for detection and accessory placement.
 - MediaPipe which is used as a backup if ML models fail, detects face and hand landmarks in each webcam frame (sent from the
   browser as a base64 JPEG).
 - An overlay engine (`ml_models/overlay_engine.py`) positions the jewelry image based on
