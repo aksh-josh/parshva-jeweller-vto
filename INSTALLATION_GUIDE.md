@@ -13,8 +13,8 @@
 ## Step 1 — Clone the repository
 
 ```
-git clone <your-repository-url>
-cd <repository-folder-name>
+git clone https://github.com/aksh-josh/parshva-jeweller-vto
+cd parshva-jeweller-vto
 ```
 
 ## Step 2 — Project structure check
@@ -35,7 +35,7 @@ docker compose up --build
 ```
 
 First run will take several minutes: MySQL image, Node packages, Python/PyTorch
-packages, and ML model weights (CLIP ~338MB, Depth Anything ~100MB) all download.
+packages, and ML model weights (CLIP ~338MB, Depth Anything ~100MB) all download around 3 -4 minutes.
 Subsequent runs are much faster.
 
 ## Step 4 — Access the app

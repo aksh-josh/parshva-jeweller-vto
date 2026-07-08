@@ -28,7 +28,8 @@ Browser ──▶ frontend (React, port 5173) ──▶ backend (Flask, port 500
 ## 3. Core Features
 
 ### 3.1 Virtual Try-On
-- MediaPipe detects face and hand landmarks in each webcam frame (sent from the
+- Trianed ML models like EfficientNet and HRNet-Keypoint are usd=ed for detection and accessory placement.
+- MediaPipe which is used as a backup if ML models fail, detects face and hand landmarks in each webcam frame (sent from the
   browser as a base64 JPEG).
 - An overlay engine (`ml_models/overlay_engine.py`) positions the jewelry image based on
   landmark geometry — different logic for necklaces/chains/mangalsutras (face-anchored),
@@ -36,7 +37,7 @@ Browser ──▶ frontend (React, port 5173) ──▶ backend (Flask, port 500
 - Supports overlaying **multiple jewelry items simultaneously** ("Complete Your Look"),
   via a `jewelry_ids` array in the try-on request.
 
-### 3.2 Recommendation Engine
+### 3.2 Recommendation Engine - The main goal of the project.
 Two systems work together:
 - **CLIP + GNN engine** (`ml_models/advanced_recommendation.py`): a CLIP (ViT-B/32)
   visual embedding captures what a piece looks like; a GNN layer is trained on which
@@ -45,15 +46,7 @@ Two systems work together:
 - **Rule-based fallback** (`recommendations.py`): color histogram + texture + material
   matching, used as a simpler complementary-category recommender.
 
-### 3.3 Accuracy Scoring
-- Rule-based geometric metrics (PCK, IoU, positional error, frame-to-frame jitter) are
-  computed every frame by `vto_accuracy.py`.
-- A learned EfficientNet-B0 model (`ml_models/accuracy_model.py`) separately scores
-  overall visual/perceptual quality of the render (things geometry alone can't catch,
-  like lighting or perspective mismatch).
-- The two scores are combined into a single accuracy grade (A–D).
-
-### 3.4 E-commerce shell
+### 3.4 E-commerce shell - User selects his/her preferences from a list or our jewellery catalog avalaible
 Catalog browsing (by material, collection, wedding, gifting), search, cart, wishlist,
 phone + OTP authentication, and an admin panel for managing products.
 
@@ -95,6 +88,9 @@ photos provide:
 - Synthetic try-on frames were generated **offline**, using diffusion-based image
   generation, to give the accuracy model both good and bad placement examples to learn
   the difference between.
+- To increase the size of the dataset, StableDiffusion + ControlNet is used.
+  The role of the model is it generates completely new image, while preserving the important features from the original image. In simple words, it changes the lighting, background but keeps the image shape and size same. 
+
 
 None of this generation happens at runtime — it was a one-time step to build the training
 set before the models were trained; the deployed app only runs inference.
