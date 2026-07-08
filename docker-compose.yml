@@ -5,8 +5,8 @@ services:
     container_name: parshva_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-changeme}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-parshva_jewellers}
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: parshva_jewellers
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -19,13 +19,13 @@ services:
     build:
       context: ./AI_VTO_Project
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       - FLASK_ENV=development
       - MYSQL_HOST=db
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-changeme}
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-parshva_jewellers}
+      - MYSQL_PASSWORD=changeme
+      - MYSQL_DATABASE=parshva_jewellers
     volumes:
       - ./AI_VTO_Project:/app
     depends_on:
