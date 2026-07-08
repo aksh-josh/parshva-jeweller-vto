@@ -86,7 +86,7 @@ Training the Suggestion model used more examples than the raw product
 photos provide:
 - Classical augmentation (rotation, lighting, cropping) expanded the training set.
 - Synthetic try-on frames were generated **offline**, using diffusion-based image
-  generation, to give the accuracy model both good and bad placement examples to learn
+  generation, to give the model both good and bad placement examples to learn
   the difference between.
 - To increase the size of the dataset, StableDiffusion + ControlNet is used.
   The role of the model is it generates completely new image, while preserving the important features from the original image. In simple words, it changes the lighting, background but keeps the image shape and size same. 
