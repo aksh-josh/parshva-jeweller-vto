@@ -36,9 +36,7 @@ For the try-on itself, the model used is EfficientNet-B2 + HRNetkeypoint, which 
 1. Imagine that a user is looking towards webcam. Before placing the jewellery, the system needs to understand where the neck and the distance of the person from webcam is. EfficientNet-B2 helps in this understanding. It is a Convolutional Neural Network which is trained to recognize visual patterns. In simple words, EfficientNet-B2 is used for understanding the image in webcam.
 2. After this procedure, all the phases are sent to HRNetkeypoint, which then determines where the jewellery should be placed. 
 3. MediaPipe detects face and hand landmarks in each webcam frame, andan overlay engine positions the jewelry image accordingly (different logic for necklaces, rings, and earrings). Mediapipe is used as a backup, if any of the trained model fails to load. 
-
-For recommendations, a CLIP (ViT-B/32) embedding captures visual style, and a GNN layer is trained on which pieces actually get worn/bought together, so a recommendation isn't just "looks similar" — it's "looks similar to what people actually
-pair this with." An EfficientNet-B0 model separately scores the quality of each try-on render, combined with rule-based geometric metrics into a single accuracy score.
+4. For recommendations, a CLIP (ViT-B/32) embedding captures visual style, and a GNN layer is trained on which pieces actually get worn/bought together, so a recommendation isn't just "looks similar" — it's "looks similar to what people actually pair this with." An EfficientNet-B0 model separately scores the quality of each try-on render, combined with rule-based geometric metrics into a single accuracy score.
 
 ## How to run it
 
