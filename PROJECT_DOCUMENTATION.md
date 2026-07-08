@@ -1,13 +1,13 @@
-# Project Documentation — Recommendation System Parshva Jewellers AI Virtual Try-On
+# Project Documentation — Suggestion System Parshva Jewellers AI Virtual Try-On
 
 ## 1. Overview
 
 This project is a jewelry e-commerce web app built around two AI features:
 - A **virtual try-on** system that overlays jewelry onto a live webcam feed
-- A **recommendation engine** that suggests complementary jewelry pieces using a
+- A **Suggestion engine** that suggests complementary jewelry pieces using a
   combination of visual embeddings and learned pairing patterns
 
-The project category is **Recommendation**, with virtual try-on (computer vision) as a
+The project category is **Suggestion**, with virtual try-on (computer vision) as a
 supporting feature.
 
 ## 2. Architecture
@@ -22,7 +22,7 @@ Browser ──▶ frontend (React, port 5173) ──▶ backend (Flask, port 500
   client-side. Talks to the backend exclusively through `fetch()` calls to `/api/*`
   endpoints — no server-rendered pages.
 - **backend**: Flask. Owns all business logic — auth, catalog, cart/wishlist, the
-  try-on/overlay pipeline, and the recommendation engine. Only the backend talks to MySQL.
+  try-on/overlay pipeline, and the Suggestion engine. Only the backend talks to MySQL.
 - **db**: MySQL 8. Stores users, OTP records, products, cart items, and wishlist items.
 
 ## 3. Core Features
@@ -37,11 +37,11 @@ Browser ──▶ frontend (React, port 5173) ──▶ backend (Flask, port 500
 - Supports overlaying **multiple jewelry items simultaneously** ("Complete Your Look"),
   via a `jewelry_ids` array in the try-on request.
 
-### 3.2 Recommendation Engine - The main goal of the project.
+### 3.2 Suggestion Engine - The main goal of the project.
 Two systems work together:
 - **CLIP + GNN engine** (`ml_models/advanced_recommendation.py`): a CLIP (ViT-B/32)
   visual embedding captures what a piece looks like; a GNN layer is trained on which
-  pieces are actually paired/bought together, so recommendations reflect real pairing
+  pieces are actually paired/bought together, so Suggestions reflect real pairing
   patterns, not just visual similarity.
 - **Rule-based fallback** (`recommendations.py`): color histogram + texture + material
   matching, used as a simpler complementary-category recommender.
@@ -66,7 +66,7 @@ phone + OTP authentication, and an admin panel for managing products.
 |---|---|---|
 | `/api/products` | GET | List/filter catalog products (`?category=`) |
 | `/api/jewelry-tryon` | POST | Process a webcam frame, return the try-on render |
-| `/api/recommendations/<id>` | GET | Get AI recommendations for a product |
+| `/api/recommendations/<id>` | GET | Get AI Suggestions for a product |
 | `/api/auth/signup` / `/login` | POST | Start phone + OTP authentication |
 | `/api/auth/verify-otp` | POST | Verify OTP, create session |
 | `/api/auth/status` | GET | Check current login state |
@@ -82,7 +82,7 @@ seeding is required.
 
 ## 7. Data Preparation (for model training)
 
-Training the recommendation model used more examples than the raw product
+Training the Suggestion model used more examples than the raw product
 photos provide:
 - Classical augmentation (rotation, lighting, cropping) expanded the training set.
 - Synthetic try-on frames were generated **offline**, using diffusion-based image
