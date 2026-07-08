@@ -8,7 +8,7 @@ export default function VirtualTryOn() {
   const category = searchParams.get('category') || 'necklace';
   const filename = searchParams.get('file') || '1.png';
 
-  // --- UI State ---
+  // --- Core State ---
   const [isRunning, setIsRunning] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [status, setStatus] = useState('Camera offline. Click Start to begin.');
@@ -17,32 +17,21 @@ export default function VirtualTryOn() {
   const [activeItems, setActiveItems] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [primaryProductId, setPrimaryProductId] = useState(null);
-  const [videoDevices, setVideoDevices] = useState([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState('');
 
-  // --- High-Performance Architectural Refs (Ported from tryon_live.html) ---
+  // --- High-Performance Refs ---
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
   const renderLoopRef = useRef(null);
+  const overlayImgRef = useRef(null); 
   
-  // The exact 480x360 network canvas from your original code
+  // ✨ LAG FIX: A single, reusable canvas for the network so we don't leak memory!
   const networkCanvasRef = useRef(document.createElement('canvas')); 
-  
-  const overlayImgRef = useRef(new Image()); 
-  const overlayReadyRef = useRef(false);
-  const pendingServerResponseRef = useRef(null);
-  
-  const lastProcessTimeRef = useRef(0);
-  const isSendingRef = useRef(false);
   
   const activeItemsRef = useRef([]); 
   const isRunningRef = useRef(false);
   const zoomRef = useRef(1.0);
-  const isStartingRef = useRef(false);
-  const metadataListenerRef = useRef(null);
 
-  // Keep refs synced with React state
   useEffect(() => { activeItemsRef.current = activeItems; }, [activeItems]);
   useEffect(() => { isRunningRef.current = isRunning; }, [isRunning]);
 
@@ -92,234 +81,111 @@ export default function VirtualTryOn() {
     }
   };
 
-  // Hard-release any existing camera stream and detach it from the video
-  // element. Always call this before requesting a new stream — leaving a
-  // stale track alive is a common reason a *second* getUserMedia() call
-  // silently fails or grabs the wrong device.
-  const releaseStream = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
-      streamRef.current = null;
-    }
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.srcObject = null;
-    }
-    if (metadataListenerRef.current && videoRef.current) {
-      videoRef.current.removeEventListener('loadedmetadata', metadataListenerRef.current);
-      metadataListenerRef.current = null;
-    }
-  };
-
-  // ════════════════════════════════════════════════════════════════════════
-  // CAMERA ENUMERATION — ported directly from tryon_live.html's
-  // enumerateCameraDevices()/detectCameras(). Runs once on mount so the
-  // dropdown is populated before the user ever clicks Start, exactly like
-  // the original page did on DOMContentLoaded.
-  //
-  // Note: the original HTML also had a server-side /api/camera/list path
-  // using cv2.VideoCapture on the machine running Flask. That only works
-  // when Flask runs directly on the same PC as the webcam. Now that the
-  // backend runs inside a Linux Docker container, it has no access to the
-  // host's webcam hardware, so that path is intentionally NOT used here —
-  // camera selection is 100% client-side (navigator.mediaDevices), which
-  // is what actually worked in your original build for the browser camera.
-  // ════════════════════════════════════════════════════════════════════════
-  useEffect(() => {
-    async function detectCameras() {
-      try {
-        let tempStream = null;
-        try {
-          tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        } catch (e) {
-          // Permission not granted yet — device labels will just be blank
-          // until the user starts the camera for the first time.
-        }
-
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const cams = devices.filter(d => d.kind === 'videoinput');
-        setVideoDevices(cams);
-
-        if (tempStream) tempStream.getTracks().forEach(t => t.stop());
-      } catch (e) {
-        console.error('[Camera] Enumeration error:', e);
-      }
-    }
-    detectCameras();
-  }, []);
-
-  // Refresh the device list if the user plugs/unplugs a camera mid-session.
-  useEffect(() => {
-    const handleDeviceChange = async () => {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        setVideoDevices(devices.filter(d => d.kind === 'videoinput'));
-      } catch (e) { /* ignore */ }
-    };
-    navigator.mediaDevices?.addEventListener?.('devicechange', handleDeviceChange);
-    return () => navigator.mediaDevices?.removeEventListener?.('devicechange', handleDeviceChange);
-  }, []);
-
-  // ════════════════════════════════════════════════════════════════════════
-  // CAMERA START — ported directly from tryon_live.html's startTryOn().
-  // Default (no manual selection) uses facingMode:'user' with NO deviceId,
-  // exactly like camIdx===0 in the original working version. A deviceId is
-  // only forced when the user explicitly picks a specific camera from the
-  // dropdown — this is deliberately simple and avoids second-guessing which
-  // device the browser considers "the" front camera.
-  // ════════════════════════════════════════════════════════════════════════
   const startCamera = async () => {
-    if (isStartingRef.current) return; // ignore double-clicks / re-entrancy
-    isStartingRef.current = true;
-
     try {
       setStatus('Requesting camera access...');
-      releaseStream(); // make sure nothing stale is holding the device
-
-      const videoConstraint = selectedDeviceId
-        ? { deviceId: { exact: selectedDeviceId }, width: { ideal: 1280 }, height: { ideal: 720 } }
-        : { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } };
-
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: videoConstraint,
+        video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: 'user' },
         audio: false
       });
-
+      
       streamRef.current = stream;
-      const video = videoRef.current;
-      if (!video) throw new Error('Video element not ready');
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play(); 
 
-      video.srcObject = stream;
+        videoRef.current.onloadedmetadata = () => {
+          if (canvasRef.current) {
+            canvasRef.current.width = videoRef.current.videoWidth;
+            canvasRef.current.height = videoRef.current.videoHeight;
+          }
+          setIsRunning(true);
+          setIsScanning(true);
+          setStatus('AI Face Mesh Scanning...');
+          
+          setTimeout(() => {
+            setIsScanning(false);
+            setStatus('AI Active & Tracking');
+            fetchRecommendations(primaryProductId);
+            processNextFrame(); 
+          }, 2000);
 
-      await new Promise((resolve, reject) => {
-        const onLoaded = () => {
-          video.removeEventListener('loadedmetadata', onLoaded);
-          metadataListenerRef.current = null;
-          canvasRef.current.width = video.videoWidth;
-          canvasRef.current.height = video.videoHeight;
-          video.play().then(resolve).catch(reject);
+          startRenderLoop();
         };
-        metadataListenerRef.current = onLoaded;
-        video.addEventListener('loadedmetadata', onLoaded);
-      });
-
-      // Refresh device labels now that permission is definitely granted.
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        setVideoDevices(devices.filter(d => d.kind === 'videoinput'));
-      } catch (e) { /* non-fatal */ }
-
-      networkCanvasRef.current.width = 480;
-      networkCanvasRef.current.height = 360;
-
-      setIsRunning(true);
-      setIsScanning(true);
-      setStatus('AI Face Mesh Scanning...');
-
-      setTimeout(() => {
-        setIsScanning(false);
-        setStatus('AI Active & Tracking');
-        fetchRecommendations(primaryProductId);
-      }, 2000);
-
-      lastProcessTimeRef.current = performance.now();
-      startRenderLoop();
-
+      }
     } catch (err) {
-      setStatus(`Camera error: ${err.message}. Try selecting a different camera.`);
-      console.error('[Camera] Start error:', err);
-    } finally {
-      isStartingRef.current = false;
+      setStatus(`Camera error: ${err.message}.`);
     }
   };
 
   const stopCamera = () => {
     setIsRunning(false);
     setIsScanning(false);
-    releaseStream();
+    if (streamRef.current) streamRef.current.getTracks().forEach(track => track.stop());
     if (renderLoopRef.current) cancelAnimationFrame(renderLoopRef.current);
-
-    overlayImgRef.current.src = '';
-    overlayReadyRef.current = false;
-    pendingServerResponseRef.current = null;
-
+    if (videoRef.current) videoRef.current.srcObject = null;
+    
+    overlayImgRef.current = null;
     const ctx = canvasRef.current?.getContext('2d');
     if (ctx) ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     setStatus('Camera stopped.');
     setRecommendations([]);
   };
 
-  // ════════════════════════════════════════════════════════════════════════
-  // THE MASTER RENDER LOOP (Exactly ported from tryon_live.html)
-  // ════════════════════════════════════════════════════════════════════════
+  // SMOOTH 60FPS DISPLAY LOOP
   const startRenderLoop = () => {
-    const render = (timestamp) => {
-      if (!isRunningRef.current || !videoRef.current || !canvasRef.current) return;
-      
+    const render = () => {
+      if (!videoRef.current || !canvasRef.current) return;
       const ctx = canvasRef.current.getContext('2d');
       const video = videoRef.current;
 
-      if (video.readyState >= video.HAVE_CURRENT_DATA) {
-        // 1. Draw the correct frame to the canvas
-        if (overlayReadyRef.current && activeItemsRef.current.length > 0 && !isScanning) {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        if (overlayImgRef.current && activeItemsRef.current.length > 0 && !isScanning) {
           ctx.drawImage(overlayImgRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
         } else {
           ctx.drawImage(video, 0, 0, canvasRef.current.width, canvasRef.current.height);
         }
-
-        // 2. Decode the background buffer if we received a response
-        if (pendingServerResponseRef.current) {
-          const src = pendingServerResponseRef.current;
-          pendingServerResponseRef.current = null;
-          
-          overlayImgRef.current.onload = () => {
-            overlayReadyRef.current = true;
-          };
-          overlayImgRef.current.onerror = () => {
-            overlayReadyRef.current = false;
-          };
-          overlayImgRef.current.src = src;
-        }
       }
-
-      // 3. Trigger the network payload every 300ms
-      if (timestamp - lastProcessTimeRef.current >= 300 && !isSendingRef.current && !isScanning) {
-        lastProcessTimeRef.current = timestamp;
-        processFrame();
-      }
-
       renderLoopRef.current = requestAnimationFrame(render);
     };
     renderLoopRef.current = requestAnimationFrame(render);
   };
 
-  // ════════════════════════════════════════════════════════════════════════
-  // THE NETWORK PAYLOAD (Exactly ported from tryon_live.html)
-  // ════════════════════════════════════════════════════════════════════════
-  const processFrame = async () => {
-    if (!videoRef.current || activeItemsRef.current.length === 0) return;
-    
-    isSendingRef.current = true;
+  // BACKGROUND AI LOOP
+  const processNextFrame = async () => {
+    if (!isRunningRef.current) return;
 
-    // Draw to 480x360 canvas and compress to 0.40 quality for lightning speed
-    const sendCtx = networkCanvasRef.current.getContext('2d');
-    sendCtx.drawImage(videoRef.current, 0, 0, 480, 360);
-    const frameData = networkCanvasRef.current.toDataURL('image/jpeg', 0.40); 
+    if (!videoRef.current || activeItemsRef.current.length === 0) {
+      overlayImgRef.current = null; 
+      setTimeout(processNextFrame, 150);
+      return;
+    }
+    
+    const maxNetworkWidth = 640;
+    const scaleFactor = Math.min(1.0, maxNetworkWidth / videoRef.current.videoWidth);
+    const sendWidth = Math.floor(videoRef.current.videoWidth * scaleFactor);
+    const sendHeight = Math.floor(videoRef.current.videoHeight * scaleFactor);
+
+    // ✨ LAG FIX: Reuse the same canvas object in memory!
+    const tempCanvas = networkCanvasRef.current;
+    tempCanvas.width = sendWidth;
+    tempCanvas.height = sendHeight;
+    tempCanvas.getContext('2d').drawImage(videoRef.current, 0, 0, sendWidth, sendHeight);
+    
+    const frameData = tempCanvas.toDataURL('image/jpeg', 0.5); 
 
     try {
-      const ids = activeItemsRef.current.map(i => Number(i.id));
+      // ✨ SIMULTANEOUS FIX: Force map to create a pristine array of integers
+      const payloadIds = activeItemsRef.current.map(i => Number(i.id));
 
       const res = await fetch('/api/jewelry-tryon', {
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'process_frame',
           data: { 
             frame: frameData, 
-            jewelry_id: ids[0],      // 🔥 Sent exactly as old HTML did!
-            jewelry_ids: ids,        // 🔥 Array sent exactly as old HTML did!
-            zoom_factor: zoomRef.current,
-            camera_is_usb: false
+            jewelry_ids: payloadIds, 
+            zoom_factor: zoomRef.current
           }
         })
       });
@@ -327,13 +193,16 @@ export default function VirtualTryOn() {
       const data = await res.json();
       
       if (data.processed_frame) {
-        pendingServerResponseRef.current = data.processed_frame;
+        const img = new Image();
+        img.onload = () => { overlayImgRef.current = img; };
+        img.src = data.processed_frame;
       }
       
     } catch (err) {
       console.log('Network skip');
     } finally {
-      isSendingRef.current = false;
+      // Run AI at a stable ~7 FPS to keep browser lightweight
+      if (isRunningRef.current) setTimeout(processNextFrame, 150); 
     }
   };
 
@@ -406,30 +275,12 @@ export default function VirtualTryOn() {
                 {!isRunning && (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-gray-900/80 backdrop-blur-sm">
                     <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6">
-                      <span className="text-4xl">{status.startsWith('Camera error') ? '⚠️' : '✨'}</span>
+                      <span className="text-4xl">✨</span>
                     </div>
                     <h2 className="text-2xl font-bold text-white mb-2">AR Fitting Room</h2>
-                    {status.startsWith('Camera error') ? (
-                      <p className="text-red-400 mb-8 max-w-sm text-center text-sm">{status}</p>
-                    ) : (
-                      <p className="text-gray-400 mb-8 max-w-sm text-center text-sm">Experience our jewelry in real-time. Allow camera access to begin the AI scan.</p>
-                    )}
-                    {videoDevices.length > 1 && (
-                      <select
-                        value={selectedDeviceId}
-                        onChange={(e) => setSelectedDeviceId(e.target.value)}
-                        className="mb-4 bg-black/40 border border-white/10 text-gray-300 text-xs rounded-lg px-3 py-2"
-                      >
-                        <option value="">Built-in webcam (default)</option>
-                        {videoDevices.map((d, i) => (
-                          <option key={d.deviceId} value={d.deviceId}>
-                            {d.label || `Camera ${i + 1}`}
-                          </option>
-                        ))}
-                      </select>
-                    )}
+                    <p className="text-gray-400 mb-8 max-w-sm text-center text-sm">Experience our jewelry in real-time. Allow camera access to begin the AI scan.</p>
                     <button onClick={startCamera} className="bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-white px-10 py-3.5 rounded-full font-bold shadow-[0_0_20px_rgba(234,179,8,0.3)] transition transform hover:-translate-y-1">
-                      {status.startsWith('Camera error') ? 'Retry Camera' : 'Initialize Camera'}
+                      Initialize Camera
                     </button>
                   </div>
                 )}
