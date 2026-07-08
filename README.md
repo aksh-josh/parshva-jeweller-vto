@@ -14,7 +14,7 @@ that" — it doesn't actually understand what makes two pieces go together.
 So I built two things on top of a normal jewelry catalog:
 - a virtual try-on that overlays jewelry onto your live webcam feed using face/hand
   landmark detection, so you can actually see it on yourself before buying
-- a recommendation engine that combines a CLIP visual embedding (what does it look like)
+- a Suggestion engine that combines a CLIP visual embedding (what does it look like)
   with a GNN trained on how pieces are actually paired (what goes with what), instead of
   just nearest-neighbour similarity
 
@@ -24,7 +24,7 @@ Three parts, each in its own Docker container:
 - **frontend**: a React (Vite) app — catalog browsing, the try-on camera page, cart,
   wishlist, login, admin panel
 - **backend**: a Python (Flask) API — serves the catalog, runs the try-on/overlay engine,
-  the recommendation engine, and auth
+  the Suggestion engine, and auth
 - **database**: MySQL, storing users, products, cart, and wishlist
 
 The frontend never talks to the database directly. It calls the backend's API (things
@@ -36,7 +36,7 @@ For the try-on itself, the model used is EfficientNet-B2 + HRNetkeypoint, which 
 1. Imagine that a user is looking towards webcam. Before placing the jewellery, the system needs to understand where the neck and the distance of the person from webcam is. EfficientNet-B2 helps in this understanding. It is a Convolutional Neural Network which is trained to recognize visual patterns. In simple words, EfficientNet-B2 is used for understanding the image in webcam.
 2. After this procedure, all the phases are sent to HRNetkeypoint, which then determines where the jewellery should be placed. 
 3. MediaPipe detects face and hand landmarks in each webcam frame, andan overlay engine positions the jewelry image accordingly (different logic for necklaces, rings, and earrings). Mediapipe is used as a backup, if any of the trained model fails to load. 
-4. For recommendations, a CLIP (ViT-B/32) embedding captures visual style, and a GNN layer is trained on which pieces actually get worn/bought together, so a recommendation isn't just "looks similar" — it's "looks similar to what people actually pair this with." An EfficientNet-B0 model separately scores the quality of each try-on render, combined with rule-based geometric metrics into a single accuracy score.
+4. For Suggestions, a CLIP (ViT-B/32) embedding captures visual style, and a GNN layer is trained on which pieces actually get worn/bought together, so a Suggestion isn't just "looks similar" — it's "looks similar to what people actually pair this with." An EfficientNet-B0 model separately scores the quality of each try-on render, combined with rule-based geometric metrics into a single accuracy score.
 
 ## How to run it
 
@@ -59,7 +59,7 @@ tables are created automatically, and product entries are imported from the imag
 1. Browse the catalog by material (gold, silver, diamond, daily wear) or by collection.
 2. Click a piece you like, then "Virtual Try-On" to open the camera view.
 3. See the piece rendered live on your camera feed, adjust zoom if needed.
-4. Check the recommendations panel for pieces that pair well with what you're wearing.
+4. Check the Suggestions panel for pieces that pair well with what you're wearing.
 
 ## The data
 
@@ -69,7 +69,7 @@ under `static/`. Each image becomes a product row in the database automatically.
 
 ## How I prepared the data
 
-For the recommendation engine and the accuracy model, I needed more training examples
+For the Suggestion engine, I needed more training examples
 than the raw product photos alone, so:
 - classical augmentation (rotation, lighting, cropping) expanded the image set for training
 - synthetic try-on frames were generated offline (using diffusion-based image generation)
@@ -116,7 +116,7 @@ AI_VTO_Project - Copyyy/                    ← ROOT (run docker/git commands he
 │   ├── tempCodeRunnerFile.py              
 │   │
 │   ├── ml_models/
-│   │   ├── advanced_recommendation.py      (CLIP + GNN recommendation engine)
+│   │   ├── advanced_recommendation.py      (CLIP + GNN Suggestion engine)
 │   │   ├── overlay_engine.py               (jewelry placement/overlay logic)
 │   │   ├── accuracy_model.py               (EfficientNet-B0 quality model)
 │   │   ├── accuracy_inference.py           (quality model inference wrapper)
@@ -169,7 +169,7 @@ AI_VTO_Project - Copyyy/                    ← ROOT (run docker/git commands he
         └── pages/
             ├── Home.jsx
             ├── Catalog.jsx
-            ├── VirtualTryOn.jsx             (webcam try-on + recommendations)
+            ├── VirtualTryOn.jsx             (webcam try-on + Suggestions)
             ├── Auth.jsx                     (login/signup + OTP)
             ├── Cart.jsx
             ├── Wishlist.jsx
