@@ -82,7 +82,7 @@ seeding is required.
 
 ## 7. Data Preparation (for model training)
 
-Training the accuracy and recommendation models used more examples than the raw product
+Training the recommendation model used more examples than the raw product
 photos provide:
 - Classical augmentation (rotation, lighting, cropping) expanded the training set.
 - Synthetic try-on frames were generated **offline**, using diffusion-based image
