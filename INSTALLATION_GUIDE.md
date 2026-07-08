@@ -13,8 +13,8 @@
 ## Step 1 — Clone the repository
 
 ```
-git clone <your-repository-url>
-cd <repository-folder-name>
+git clone https://github.com/aksh-josh/parshva-jeweller-vto
+cd parshva-jeweller-vto
 ```
 
 ## Step 2 — Project structure check
