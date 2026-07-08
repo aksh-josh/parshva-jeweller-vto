@@ -1,4 +1,4 @@
-# Parshva Jewellers — AI Virtual Try-On & Recommendation System
+# Parshva Jewellers — Suggestion System & AI Virtual Try-On
 
 Parshva Jewellers is a jewelry web app where you can browse a catalog, try pieces on
 virtually through your webcam, and get AI-recommended pieces that go well with whatever
