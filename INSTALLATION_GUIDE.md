@@ -12,7 +12,7 @@
 ## Step 1 — Clone the repository
 
 ```
-git clone https://github.com/aksh-josh/parshva-jeweller-vto
+git clone https://github.com/aksh-josh/parshva-jeweller-vto.git
 cd parshva-jeweller-vto
 ```
 
