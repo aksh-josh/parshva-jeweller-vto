@@ -11,8 +11,7 @@ __pycache__/
 venv/
 
 # Model checkpoints (large binaries)
-AI_VTO_Project/checkpoints/*.pth
-AI_VTO_Project/checkpoints/*.pt
+
 
 # OS / editor
 .DS_Store
