@@ -56,7 +56,7 @@ accuracy_scorer    = None
 gaze_detector_obj  = None
 GAZE_ENABLED       = False
 
-# ✨ FIX: Frame skipping for performance
+# FIX: Frame skipping for performance
 _frame_counter = 0
 _FRAME_SKIP = 0  # Process every 2nd frame (skip 1)
 
@@ -379,7 +379,7 @@ def apply_virtual_jewelry(image, face_landmarks, hand_landmarks_result, jewelry_
             except Exception as e:
                 print(f"[Ring] overlay_engine failed: {e}")
 
-        # ✨ FIX: Enhanced fallback ring placement with LARGER SIZE
+        # FIX: Enhanced fallback ring placement with LARGER SIZE
         if hand_landmarks_result is not None and hand_landmarks_result.multi_hand_landmarks:
             return _apply_ring_basic_enhanced(image, jewelry_img,
                                      hand_landmarks_result.multi_hand_landmarks[0],
@@ -403,7 +403,7 @@ def apply_virtual_jewelry(image, face_landmarks, hand_landmarks_result, jewelry_
     if face_landmarks is None:
         return image, "No face detected", False
 
-    # ✨ FIX: Added try/except to prevent black screens! 
+    # FIX: Added try/except to prevent black screens! 
     # Necklaces are explicitly routed to the safe fallback below to avoid Docker OpenCV crashes.
     if overlay_engine is not None:
         try:
@@ -457,7 +457,7 @@ def apply_virtual_jewelry(image, face_landmarks, hand_landmarks_result, jewelry_
 
 def _apply_ring_basic_enhanced(image, jewelry_img, hand_lm, zoom_factor=1.0):
     """
-    ✨✨✨ ENHANCED RING PLACEMENT WITH SIGNIFICANTLY LARGER SIZE ✨✨✨
+    ENHANCED RING PLACEMENT WITH SIGNIFICANTLY LARGER SIZE ✨✨✨
     
     CHANGES FROM ORIGINAL:
     1. Increased base size multiplier from 2.4x to 4.2x (75% larger)
@@ -474,7 +474,7 @@ def _apply_ring_basic_enhanced(image, jewelry_img, hand_lm, zoom_factor=1.0):
     pip_x = int(lm[14].x * w_img)  # Ring finger middle (PIP)
     pip_y = int(lm[14].y * h_img)
 
-    # ✨ IMPROVED: Calculate palm width using multiple reference points
+    # IMPROVED: Calculate palm width using multiple reference points
     # Use index finger base (5) to pinky base (17) for better scale
     index_base_x = int(lm[5].x * w_img)
     pinky_base_x = int(lm[17].x * w_img)
@@ -487,7 +487,7 @@ def _apply_ring_basic_enhanced(image, jewelry_img, hand_lm, zoom_factor=1.0):
     # Use the larger measurement for better sizing
     reference_width = max(palm_width, alt_width * 1.5)
     
-    # ✨ FIX: SIGNIFICANTLY INCREASED finger width estimation
+    # FIX: SIGNIFICANTLY INCREASED finger width estimation
     # Original was palm_width // 3, now using larger divisor and base
     finger_width = max(40, int(reference_width * 0.30))  # Increased from max(18, ...)
 
@@ -500,7 +500,7 @@ def _apply_ring_basic_enhanced(image, jewelry_img, hand_lm, zoom_factor=1.0):
     dy = pip_y - mcp_y
     angle = np.degrees(np.arctan2(dy, dx)) - 90
 
-    # ✨✨✨ CRITICAL FIX: MASSIVELY INCREASED SIZE MULTIPLIER ✨✨✨
+    # CRITICAL FIX: MASSIVELY INCREASED SIZE MULTIPLIER ✨✨✨
     # Original: 2.4x → New: 4.2x (75% larger rings!)
     target_w = max(40, int(finger_width * 4.2 * zoom_factor))
     
@@ -631,7 +631,7 @@ def get_products():
             cat = info["category"].lower()
             fol = info["folder"].lower()
             
-            # ✨ THE BUG FIX: Prevent "ring" from matching "earring"
+            # THE BUG FIX: Prevent "ring" from matching "earring"
             if cf == "ring" and ("earring" in cat or "jhumka" in fol):
                 continue
                 
@@ -682,7 +682,7 @@ def api_tryon():
         if data.get("action") == "process_frame" or \
            ("data" in data and "frame" in data.get("data", {})):
 
-            # ✨ FIX: REMOVED FRAME SKIPPING - PROCESS EVERY FRAME
+            # FIX: REMOVED FRAME SKIPPING - PROCESS EVERY FRAME
             _frame_counter += 1
 
             frame_data        = data["data"]["frame"]
@@ -742,7 +742,7 @@ def api_tryon():
             if hand_results is not None and hand_results.multi_hand_landmarks:
                 hand_detected = True
 
-            # ✨ CRITICAL FIX: Apply jewelry to EVERY frame
+            # CRITICAL FIX: Apply jewelry to EVERY frame
             for j_id in jewelry_ids:
                 frame, status, success = apply_virtual_jewelry(
                     frame, face_lm, hand_results, j_id, zoom
@@ -751,7 +751,7 @@ def api_tryon():
                     first_jewelry_type = jewelry_dataset[j_id]["type"]
                     first_category     = jewelry_dataset[j_id]["category"]
                     
-                # ✨ DEBUG: Print if jewelry was applied
+                # DEBUG: Print if jewelry was applied
                 print(f"[DEBUG] Jewelry {j_id} applied: {success}, status: {status}")
 
             if not person_detected and hand_detected:
@@ -839,10 +839,10 @@ def api_tryon():
                     "usb_required": True,
                 }
 
-            # ✨✨✨ CRITICAL: ALWAYS encode and return processed_frame ✨✨✨
+            # CRITICAL: ALWAYS encode and return processed_frame ✨✨✨
             encoded_frame = encode_image_to_base64(frame)
             
-            # ✨ DEBUG: Check if encoding succeeded
+            # DEBUG: Check if encoding succeeded
             if not encoded_frame:
                 print("[DEBUG] ❌ Frame encoding FAILED!")
             else:
@@ -884,14 +884,14 @@ def get_recommendations_api(jewelry_id):
         return jsonify({"success": False, "recommendations": [], "count": 0})
     info = jewelry_dataset[jewelry_id]
     
-    # ✨ FIX: Gender and type-aware filtering
+    # FIX: Gender and type-aware filtering
     jewelry_type = info["type"]
     category = info["category"]
     
     # Determine gender context
     is_mens = category in ['for-him', 'chain'] or 'men' in category.lower()
     
-    # ✨ FIX: For chains, only recommend chains
+    # FIX: For chains, only recommend chains
     if jewelry_type == "chain":
         valid_types = ["chain"]
         exclude_categories = ["for-her", "wedding", "bridal", "jhumka", "earring"]
@@ -904,7 +904,7 @@ def get_recommendations_api(jewelry_id):
             query_path = os.path.join(app.static_folder, info["image_path"])
             recs = rec_engine.recommend(query_path=query_path, query_category=info["category"], top_k=12)
             
-            # ✨ Filter recommendations
+            # Filter recommendations
             filtered_recs = []
             for r in recs:
                 rec_cat = r.get("category", "")
