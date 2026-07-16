@@ -49,6 +49,17 @@ docker compose up --build
 Then open:
 - the app: http://localhost:5173
 - the backend API directly (for debugging): http://localhost:5000
+- On http://localhost:5173, the user can see the main page of the website, the carousel, and on top there are various options like gold, silver, diamond etc.
+<img width="947" height="413" alt="image" src="https://github.com/user-attachments/assets/253e2a11-f3aa-4816-9c62-c3c89dd653ba" />
+
+- At present, I have not categorized it into different sections, so the user if clicks on necklace, he will be able to see all the categories like gold, diamond etc. Same goes with all the jewellery items.
+
+<img width="950" height="415" alt="image" src="https://github.com/user-attachments/assets/77eb9388-0da2-41e4-80f8-b67625dbbccb" />
+- Once the user selects any accessory, he will land on Virtual-Try On page.
+- After that, click on initialize camera, and camera will start.
+  <img width="949" height="358" alt="image" src="https://github.com/user-attachments/assets/01f2d210-eec1-40da-97e9-8ca03b5323a4" />
+
+- Now the main pat, once the jewellery is placed, the suggestion panel on the right side of the screen will open named as **AI STYLIST**, and suggest the jewellery items which user can try on simultaneously, based on the current accessory selected.
 
 The database and product catalog set themselves up the first time the backend starts —
 tables are created automatically, and product entries are imported from the images in
